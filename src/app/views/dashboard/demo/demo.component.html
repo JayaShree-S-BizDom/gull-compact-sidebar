@@ -16,7 +16,7 @@
                 <div class="separator-breadcrumb border-top"></div>
 
                 <!-- Scrollable Container -->
-                <div style="max-height: 745px; overflow-y: auto; padding-right: 15px;">
+                <div style="max-height: 630px; overflow-y: auto; padding-right: 15px;">
                     <!-- Fixed height for scrolling -->
 
                     <!-- First Row -->
@@ -114,76 +114,63 @@
                 <div class="row">
                     <div class="col-md-12 mb-4">
                         <div class="card o-hidden">
-                            <ngx-datatable
-                            style="height: 600px; box-shadow: none; text-align: center;"
-                            class="bootstrap core-bootstrap"
-                            [columnMode]="'force'"
+                            <ngx-datatable style="height: 459px; box-shadow: none;"
+                            class="bootstrap core-bootstrap" 
+                            [columnMode]="'force'" 
                             [headerHeight]="50"
-                            [footerHeight]="50"
-                            rowHeight="auto"
-                            [rows]="cartItems"
+                            [footerHeight]="50" 
+                            [rows]="cartItemsJson" 
                             [scrollbarV]="true"
                             [limit]="10">
-                            
-                            <ngx-datatable-column name="Product Name" prop="name">
-                              <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span>
-                                  <strong>{{ row.name }}</strong>
-                                </span>
-                              </ng-template>
+
+                            <ngx-datatable-column name="Product Name" prop="name" [width]="300">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span>
+                                        <strong>{{ row.name }}</strong>
+                                    </span>
+                                </ng-template>
                             </ngx-datatable-column>
-                          
+
                             <ngx-datatable-column name="Quantity" prop="quantity">
-                              <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span>
-                                  <strong>{{ row.quantity }}</strong>
-                                </span>
-                              </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span>
+                                        <strong>{{ row.quantity }}</strong>
+                                    </span>
+                                </ng-template>
                             </ngx-datatable-column>
-                          
+
                             <ngx-datatable-column name="Price" prop="price">
-                              <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span>
-                                  <strong>{{ row.price }}</strong>
-                                </span>
-                              </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span>
+                                        <strong>₹{{ row.price }}</strong>
+                                    </span>
+                                </ng-template>
                             </ngx-datatable-column>
-                          
+
                             <ngx-datatable-column name="Total Price" prop="total">
-                              <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span>
-                                  <strong>{{ row.total }}</strong>
-                                </span>
-                              </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span>
+                                        <strong>₹{{ row.total }}</strong>
+                                    </span>
+                                </ng-template>
                             </ngx-datatable-column>
-                          </ngx-datatable>
-                          
+                        </ngx-datatable>
+
+                            <!-- Display Total Price -->
+                            <div class="total-price">
+                                <h6>Total Amount: ₹{{ getTotalPrice() }}</h6>
+                            </div>
+
 
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3" *ngFor="let Payment of paymentType">
                         <div class="card card-icon mb-4">
                             <div class="card-body text-center">
-                                <button type="button" class="btn btn-outline-primary m-1">Cash</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="card card-icon mb-4">
-                            <div class="card-body text-center">
-                                <button type="button" class="btn btn-outline-primary m-1">Card</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="card card-icon mb-4">
-                            <div class="card-body text-center">
-                                <button type="button" class="btn btn-outline-primary m-1">G-pay</button>
+                                <button type="button" class="btn btn-outline-primary m-1" (click)="selectPayment(Payment)">{{Payment.name}}</button>
                             </div>
                         </div>
                     </div>
