@@ -133,6 +133,7 @@ export class DemoComponent implements OnInit {
   }
 
   addToCart(quantity: number) {
+  if (this.selectedProduct) { // Ensure a product is selected
     const cartItem = {
       id: this.cartItems.length + 1,  // Incremental ID for each cart item
       name: this.selectedProduct.name,
@@ -144,6 +145,9 @@ export class DemoComponent implements OnInit {
     this.cartItems.push(cartItem);  // Add the item to the cart
     this.cd.detectChanges(); // Ensure the view updates
     console.log(this.cartItems);  // Check the cart in the console
+  } else {
+    console.error('No product selected to add to cart');
   }
+}
 }
 
