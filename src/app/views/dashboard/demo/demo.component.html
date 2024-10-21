@@ -12,6 +12,22 @@
     <div class="col-md-6">
         <div class="card mb-6">
             <div class="card-body">
+                <!-- <div>
+                    <input
+                        type="text"
+                        placeholder="Search"
+                        (input)="filterProducts($event.target.value)"
+                        (focus)="searchService.searchOpen = true"
+                        (blur)="searchService.searchOpen = false"
+                    >
+                    <i class="search-icon text-muted i-Magnifi-Glass1"></i>
+                </div>
+                
+                <div *ngIf="searchService.searchOpen" class="search-results">
+                    <div *ngFor="let product of filteredProducts">
+                        {{ product.name }} - {{ product.price }} (Code: {{ product.code }})
+                    </div>
+                </div> -->
                 <div class="card-title m-0">Medicine List</div>
                 <div class="separator-breadcrumb border-top"></div>
 
@@ -29,6 +45,7 @@
                                     <p class="text-muted mt-2 mb-2">{{ medicine.name }}</p>
                                     <button type="button" class="btn btn-outline-primary m-1"
                                         (click)="openModal(productModalContent, medicine)">₹{{ medicine.price }}</button>
+                                    <p class="text-muted mt-2 mb-2">{{ medicine.location }}</p>
                                 </div>
                             </div>
                         </div>
@@ -44,6 +61,7 @@
                                     <p class="text-muted mt-2 mb-2">{{ inject.name }}</p>
                                     <button type="button" class="btn btn-outline-primary m-1"
                                         (click)="openModal(productModalContent, inject)">₹{{ inject.price }}</button>
+                                    <p class="text-muted mt-2 mb-2">{{ inject.location }}</p>
                                 </div>
                             </div>
                         </div>
@@ -59,6 +77,7 @@
                                     <p class="text-muted mt-2 mb-2">{{ syrupt.name }}</p>
                                     <button type="button" class="btn btn-outline-primary m-1"
                                         (click)="openModal(productModalContent, syrupt)">₹{{ syrupt.price }}</button>
+                                    <p class="text-muted mt-2 mb-2">{{ syrupt.location }}</p>
                                 </div>
                             </div>
                         </div>
@@ -74,6 +93,7 @@
                                     <p class="text-muted mt-2 mb-2">{{ PainRelief.name }}</p>
                                     <button type="button" class="btn btn-outline-primary m-1"
                                         (click)="openModal(productModalContent, PainRelief)">₹{{ PainRelief.price }}</button>
+                                    <p class="text-muted mt-2 mb-2">{{ PainRelief.location }}</p>
                                 </div>
                             </div>
                         </div>
@@ -94,8 +114,11 @@
         <div class="modal-body">
             <p>Price: ₹{{ selectedProduct?.price }}</p>
             <p>Code: {{ selectedProduct?.code }}</p>
+            <p><strong>Expire Date: {{ selectedProduct?.ExpireDate}}</strong></p>
+            <p>CGST: {{ selectedProduct?.tax1}}</p>
+            <p>SGST: {{ selectedProduct?.tax2}}</p>
             <div class="form-group d-flex align-items-center">
-                <label for="quantity" class="mr-2">Quantity:</label>
+                <label for="quantity" class="mr-2"><strong>Quantity:</strong></label>
                 <input type="number" class="form-control custom-input" #quantityInput />
             </div>
         </div>
@@ -150,17 +173,24 @@
                             <ngx-datatable-column name="Total Price" prop="total">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span>
-                                        <strong>₹{{ row.total }}</strong>
+                                        <strong>₹{{ row.totalamount }}</strong>
                                     </span>
                                 </ng-template>
                             </ngx-datatable-column>
                         </ngx-datatable>
 
                             <!-- Display Total Price -->
-                            <div class="total-price">
-                                <h6>Total Amount: ₹{{ getTotalPrice() }}</h6>
+                            <div class="summary-container">
+                                <div class="tax-amount">
+                                    <h6>Tax Amount: ₹{{ getTotalTax() }}</h6>
+                                </div>
+                                <div class="sub-total">
+                                    <h6>Sub-Total: ₹{{ getSubtotal() }}</h6>
+                                </div>
+                                <div class="total-price">
+                                    <h6>Total Amount (Including Tax): ₹{{ getTotalPriceWithoutTax() }}</h6>
+                                </div>
                             </div>
-
 
                         </div>
                     </div>
